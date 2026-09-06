@@ -28,3 +28,14 @@ KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
 # Reconnect behavior
 RECONNECT_DELAY_SECONDS = 5
 MAX_RECONNECT_ATTEMPTS = 10
+
+def get_topic_for_stream(stream_name: str) -> str:
+    """Map a Binance stream name like 'btcusdt@bookTicker' to a Kafka topic."""
+    if "@trade" in stream_name:
+        return EVENT_TOPIC_MAP["trade"]
+    elif "@kline" in stream_name:
+        return EVENT_TOPIC_MAP["kline"]
+    elif "@bookTicker" in stream_name:
+        return EVENT_TOPIC_MAP["bookTicker"]
+    else:
+        return None
