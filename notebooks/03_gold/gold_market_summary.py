@@ -75,8 +75,9 @@ summary = (
 
 # COMMAND ----------
 
-summary.createOrReplaceTempView("summary_staging")
-spark.sql(f"CREATE OR REPLACE TABLE {TARGET_TABLE} AS SELECT * FROM summary_staging")
+(summary.write
+    .mode("overwrite")
+    .saveAsTable(TARGET_TABLE))
 
 # COMMAND ----------
 

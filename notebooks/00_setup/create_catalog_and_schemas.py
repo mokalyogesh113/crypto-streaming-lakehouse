@@ -103,3 +103,24 @@ for t in ["trades", "klines", "bookticker"]:
 # MAGIC   updated_at TIMESTAMP,
 # MAGIC   event_date DATE
 # MAGIC ) USING DELTA PARTITIONED BY (event_date);
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_market_summary (
+# MAGIC   as_of_window TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   current_price DECIMAL(20,8),
+# MAGIC   price_change_1m_pct DOUBLE,
+# MAGIC   price_change_5m_pct DOUBLE,
+# MAGIC   price_change_1h_pct DOUBLE,
+# MAGIC   volume_1m DECIMAL(38,8),
+# MAGIC   volume_5m DECIMAL(38,8),
+# MAGIC   volume_1h DECIMAL(38,8),
+# MAGIC   volatility_5m DOUBLE,
+# MAGIC   volatility_1h DOUBLE,
+# MAGIC   buy_sell_ratio_5m DOUBLE,
+# MAGIC   spread_pct DOUBLE,
+# MAGIC   book_imbalance DOUBLE,
+# MAGIC   updated_at TIMESTAMP
+# MAGIC ) USING DELTA;
