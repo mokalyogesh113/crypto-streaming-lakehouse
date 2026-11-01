@@ -124,3 +124,22 @@ for t in ["trades", "klines", "bookticker"]:
 # MAGIC   book_imbalance DOUBLE,
 # MAGIC   updated_at TIMESTAMP
 # MAGIC ) USING DELTA;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_anomaly_events (
+# MAGIC   event_id STRING,
+# MAGIC   event_timestamp TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   anomaly_type STRING,
+# MAGIC   metric_name STRING,
+# MAGIC   metric_value DOUBLE,
+# MAGIC   baseline_value DOUBLE,
+# MAGIC   deviation_pct DOUBLE,
+# MAGIC   z_score DOUBLE,
+# MAGIC   severity STRING,
+# MAGIC   detection_rule STRING,
+# MAGIC   created_at TIMESTAMP,
+# MAGIC   event_date DATE
+# MAGIC ) USING DELTA PARTITIONED BY (event_date);
