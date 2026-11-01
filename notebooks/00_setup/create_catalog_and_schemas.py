@@ -11,3 +11,8 @@
 
 for t in ["trades", "klines", "bookticker"]:
     dbutils.fs.mkdirs(f"/Volumes/dev/raw/landing/{t}")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE VOLUME IF NOT EXISTS dev.raw.checkpoints;
