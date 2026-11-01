@@ -77,3 +77,29 @@ for t in ["trades", "klines", "bookticker"]:
 # MAGIC   event_date DATE,
 # MAGIC   ingestion_timestamp TIMESTAMP
 # MAGIC ) USING DELTA PARTITIONED BY (event_date);
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE VOLUME IF NOT EXISTS dev.gold.checkpoints;
+# MAGIC
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_1min_metrics (
+# MAGIC   window_start TIMESTAMP,
+# MAGIC   window_end TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   open_price DECIMAL(20,8),
+# MAGIC   high_price DECIMAL(20,8),
+# MAGIC   low_price DECIMAL(20,8),
+# MAGIC   close_price DECIMAL(20,8),
+# MAGIC   total_volume DECIMAL(30,8),
+# MAGIC   buy_volume DECIMAL(30,8),
+# MAGIC   sell_volume DECIMAL(30,8),
+# MAGIC   trade_count BIGINT,
+# MAGIC   avg_trade_price DECIMAL(20,8),
+# MAGIC   price_change DECIMAL(20,8),
+# MAGIC   price_change_pct DECIMAL(12,6),
+# MAGIC   volatility DOUBLE,
+# MAGIC   vwap DECIMAL(20,8),
+# MAGIC   updated_at TIMESTAMP,
+# MAGIC   event_date DATE
+# MAGIC ) USING DELTA PARTITIONED BY (event_date);
