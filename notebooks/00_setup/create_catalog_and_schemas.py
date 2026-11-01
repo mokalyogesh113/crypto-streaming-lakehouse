@@ -77,3 +77,69 @@ for t in ["trades", "klines", "bookticker"]:
 # MAGIC   event_date DATE,
 # MAGIC   ingestion_timestamp TIMESTAMP
 # MAGIC ) USING DELTA PARTITIONED BY (event_date);
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE VOLUME IF NOT EXISTS dev.gold.checkpoints;
+# MAGIC
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_1min_metrics (
+# MAGIC   window_start TIMESTAMP,
+# MAGIC   window_end TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   open_price DECIMAL(20,8),
+# MAGIC   high_price DECIMAL(20,8),
+# MAGIC   low_price DECIMAL(20,8),
+# MAGIC   close_price DECIMAL(20,8),
+# MAGIC   total_volume DECIMAL(30,8),
+# MAGIC   buy_volume DECIMAL(30,8),
+# MAGIC   sell_volume DECIMAL(30,8),
+# MAGIC   trade_count BIGINT,
+# MAGIC   avg_trade_price DECIMAL(20,8),
+# MAGIC   price_change DECIMAL(20,8),
+# MAGIC   price_change_pct DECIMAL(12,6),
+# MAGIC   volatility DOUBLE,
+# MAGIC   vwap DECIMAL(20,8),
+# MAGIC   updated_at TIMESTAMP,
+# MAGIC   event_date DATE
+# MAGIC ) USING DELTA PARTITIONED BY (event_date);
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_market_summary (
+# MAGIC   as_of_window TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   current_price DECIMAL(20,8),
+# MAGIC   price_change_1m_pct DOUBLE,
+# MAGIC   price_change_5m_pct DOUBLE,
+# MAGIC   price_change_1h_pct DOUBLE,
+# MAGIC   volume_1m DECIMAL(38,8),
+# MAGIC   volume_5m DECIMAL(38,8),
+# MAGIC   volume_1h DECIMAL(38,8),
+# MAGIC   volatility_5m DOUBLE,
+# MAGIC   volatility_1h DOUBLE,
+# MAGIC   buy_sell_ratio_5m DOUBLE,
+# MAGIC   spread_pct DOUBLE,
+# MAGIC   book_imbalance DOUBLE,
+# MAGIC   updated_at TIMESTAMP
+# MAGIC ) USING DELTA;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE TABLE IF NOT EXISTS dev.gold.crypto_anomaly_events (
+# MAGIC   event_id STRING,
+# MAGIC   event_timestamp TIMESTAMP,
+# MAGIC   symbol STRING,
+# MAGIC   anomaly_type STRING,
+# MAGIC   metric_name STRING,
+# MAGIC   metric_value DOUBLE,
+# MAGIC   baseline_value DOUBLE,
+# MAGIC   deviation_pct DOUBLE,
+# MAGIC   z_score DOUBLE,
+# MAGIC   severity STRING,
+# MAGIC   detection_rule STRING,
+# MAGIC   created_at TIMESTAMP,
+# MAGIC   event_date DATE
+# MAGIC ) USING DELTA PARTITIONED BY (event_date);
